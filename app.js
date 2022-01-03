@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
         res.redirect("/");
       } else {
         res.render("lists", {
-          listTitle: date.getDate(),
+          listTitle: date.getDay(),
           newItem: item
         });
       }
@@ -79,7 +79,7 @@ app.post("/", (req, res) => {
   const nextItem = new Item({
     name: newItem
   });
-  if (listTitle === "Today") {
+  if (listTitle === date.getDay()) {
     nextItem.save();
     res.redirect("/");
   } else {
@@ -95,7 +95,7 @@ app.post("/", (req, res) => {
 app.post("/delete", (req, res) => {
   const itemId = req.body.checkbox;
   const listTitle = req.body.listTitle;
-  if (listTitle === "Today") {
+  if (listTitle === date.getDay()) {
     Item.deleteOne({
       _id: itemId
     }, (err) => {
